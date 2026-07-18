@@ -37,7 +37,7 @@ build/main.o: Core/Src/main.c Core/Inc/main.h \
  Middlewares/Third_Party/FreeRTOS/Source/include/list.h \
  Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h \
  Core/Inc/dma.h Core/Inc/main.h Core/Inc/usart.h Core/Inc/gpio.h \
- Core/BSP/multi_button.h Core/BSP/Emm_V5.h
+ Core/Bsp/multi_button.h Core/Bsp/Emm_V5.h
 Core/Inc/main.h:
 Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
 Core/Inc/stm32f4xx_hal_conf.h:
@@ -82,5 +82,5 @@ Core/Inc/dma.h:
 Core/Inc/main.h:
 Core/Inc/usart.h:
 Core/Inc/gpio.h:
-Core/BSP/multi_button.h:
-Core/BSP/Emm_V5.h:
+Core/Bsp/multi_button.h:
+Core/Bsp/Emm_V5.h:

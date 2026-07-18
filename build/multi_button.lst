@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s 			page 1
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccC8Ymqm.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s 			page 1
   28:Core/BSP/multi_button.c **** 	if (!handle || !pin_level) return;  // parameter validation
   29:Core/BSP/multi_button.c **** 
   30:Core/BSP/multi_button.c **** 	memset(handle, 0, sizeof(Button));
-ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s 			page 2
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccC8Ymqm.s 			page 2
 
 
   31:Core/BSP/multi_button.c **** 	handle->event = (uint8_t)BTN_NONE_PRESS;
@@ -118,7 +118,7 @@ ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s 			page 1
   85:Core/BSP/multi_button.c **** 	if (!handle) return 0;
   86:Core/BSP/multi_button.c **** 	return handle->repeat;
   87:Core/BSP/multi_button.c **** }
-ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s 			page 3
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccC8Ymqm.s 			page 3
 
 
   88:Core/BSP/multi_button.c **** 
@@ -178,7 +178,7 @@ ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s 			page 1
   39 0002 0446     		mov	r4, r0
  132:Core/BSP/multi_button.c **** 	uint8_t read_gpio_level = button_read_level(handle);
   40              		.loc 1 132 2 is_stmt 1 view .LVU2
-ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s 			page 4
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccC8Ymqm.s 			page 4
 
 
   41              	.LVL1:
@@ -238,7 +238,7 @@ ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s 			page 1
   79              		.loc 1 142 5 view .LVU19
   80 0022 B0EBD31F 		cmp	r0, r3, lsr #7
   81 0026 13D0     		beq	.L3
-ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s 			page 5
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccC8Ymqm.s 			page 5
 
 
  143:Core/BSP/multi_button.c **** 		// Continue reading same new level for debounce
@@ -298,7 +298,7 @@ ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s 			page 1
  124 006e A500     		.2byte	(.L8-.L7)/2
  125 0070 D500     		.2byte	(.L6-.L7)/2
  126              		.p2align 1
-ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s 			page 6
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccC8Ymqm.s 			page 6
 
 
  127              	.L11:
@@ -358,7 +358,7 @@ ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s 			page 1
  192:Core/BSP/multi_button.c **** 			EVENT_CB(BTN_PRESS_REPEAT);
  193:Core/BSP/multi_button.c **** 			handle->ticks = 0;
  194:Core/BSP/multi_button.c **** 			handle->state = BTN_STATE_REPEAT;
-ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s 			page 7
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccC8Ymqm.s 			page 7
 
 
  195:Core/BSP/multi_button.c **** 		} else if (handle->ticks > SHORT_TICKS) {
@@ -418,7 +418,7 @@ ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s 			page 1
  147              	.L30:
  158:Core/BSP/multi_button.c **** 			EVENT_CB(BTN_PRESS_DOWN);
  148              		.loc 1 158 4 is_stmt 1 view .LVU40
-ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s 			page 8
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccC8Ymqm.s 			page 8
 
 
  158:Core/BSP/multi_button.c **** 			EVENT_CB(BTN_PRESS_DOWN);
@@ -478,7 +478,7 @@ ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s 			page 1
  188 00b6 C3F38012 		ubfx	r2, r3, #6, #1
  169:Core/BSP/multi_button.c **** 			// Button released
  189              		.loc 1 169 6 view .LVU56
-ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s 			page 9
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccC8Ymqm.s 			page 9
 
 
  190 00ba B2EBD31F 		cmp	r2, r3, lsr #7
@@ -538,7 +538,7 @@ ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s 			page 1
  177:Core/BSP/multi_button.c **** 			EVENT_CB(BTN_LONG_PRESS_START);
  230              		.loc 1 177 4 is_stmt 1 view .LVU71
  177:Core/BSP/multi_button.c **** 			EVENT_CB(BTN_LONG_PRESS_START);
-ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s 			page 10
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccC8Ymqm.s 			page 10
 
 
  231              		.loc 1 177 18 is_stmt 0 view .LVU72
@@ -598,7 +598,7 @@ ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s 			page 1
  271 011a B5D9     		bls	.L1
  197:Core/BSP/multi_button.c **** 				handle->event = (uint8_t)BTN_SINGLE_CLICK;
  272              		.loc 1 197 4 is_stmt 1 view .LVU87
-ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s 			page 11
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccC8Ymqm.s 			page 11
 
 
  197:Core/BSP/multi_button.c **** 				handle->event = (uint8_t)BTN_SINGLE_CLICK;
@@ -658,7 +658,7 @@ ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s 			page 1
  312              		.loc 1 188 4 discriminator 3 view .LVU102
  188:Core/BSP/multi_button.c **** 				handle->repeat++;
  313              		.loc 1 188 23 is_stmt 0 discriminator 3 view .LVU103
-ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s 			page 12
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccC8Ymqm.s 			page 12
 
 
  314 0146 A378     		ldrb	r3, [r4, #2]	@ zero_extendqisi2
@@ -718,7 +718,7 @@ ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s 			page 1
  354 017e E370     		strb	r3, [r4, #3]
  355 0180 82E7     		b	.L1
  356              	.LVL20:
-ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s 			page 13
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccC8Ymqm.s 			page 13
 
 
  357              	.L32:
@@ -778,7 +778,7 @@ ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s 			page 1
  399              	.L8:
  209:Core/BSP/multi_button.c **** 			// Button released
  400              		.loc 1 209 3 is_stmt 1 view .LVU130
-ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s 			page 14
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccC8Ymqm.s 			page 14
 
 
  209:Core/BSP/multi_button.c **** 			// Button released
@@ -838,7 +838,7 @@ ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s 			page 1
  438              		.loc 1 215 19 is_stmt 0 view .LVU147
  439 01dc E378     		ldrb	r3, [r4, #3]	@ zero_extendqisi2
  440 01de 0222     		movs	r2, #2
-ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s 			page 15
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccC8Ymqm.s 			page 15
 
 
  441 01e0 62F30203 		bfi	r3, r2, #0, #3
@@ -898,7 +898,7 @@ ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s 			page 1
  228:Core/BSP/multi_button.c **** 			// Continue holding
  481              		.loc 1 228 6 view .LVU162
  482 0218 B2EBD31F 		cmp	r2, r3, lsr #7
-ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s 			page 16
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccC8Ymqm.s 			page 16
 
 
  483 021c 0ED0     		beq	.L34
@@ -958,7 +958,7 @@ ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s 			page 1
  523 024e A16A     		ldr	r1, [r4, #40]
  524 0250 2046     		mov	r0, r4
  525              	.LVL33:
-ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s 			page 17
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccC8Ymqm.s 			page 17
 
 
  231:Core/BSP/multi_button.c **** 		} else {
@@ -1018,7 +1018,7 @@ ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s 			page 1
   28:Core/BSP/multi_button.c **** 
  574              		.loc 1 28 14 discriminator 2 view .LVU186
  575 000c A9B1     		cbz	r1, .L35
-ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s 			page 18
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccC8Ymqm.s 			page 18
 
 
   30:Core/BSP/multi_button.c **** 	handle->event = (uint8_t)BTN_NONE_PRESS;
@@ -1078,7 +1078,7 @@ ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s 			page 1
   38:Core/BSP/multi_button.c **** 
  614              		.loc 1 38 1 is_stmt 0 view .LVU203
  615 003a F8BD     		pop	{r3, r4, r5, r6, r7, pc}
-ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s 			page 19
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccC8Ymqm.s 			page 19
 
 
  616              	.LVL41:
@@ -1138,7 +1138,7 @@ ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s 			page 1
  662              	.L41:
   53:Core/BSP/multi_button.c **** 
  663              		.loc 1 53 1 view .LVU214
-ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s 			page 20
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccC8Ymqm.s 			page 20
 
 
  664 0010 7047     		bx	lr
@@ -1198,7 +1198,7 @@ ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s 			page 1
  713              		.loc 1 73 1 is_stmt 1 view -0
  714              		.cfi_startproc
  715              		@ args = 0, pretend = 0, frame = 0
-ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s 			page 21
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccC8Ymqm.s 			page 21
 
 
  716              		@ frame_needed = 0, uses_anonymous_args = 0
@@ -1258,7 +1258,7 @@ ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s 			page 1
  759 0002 8078     		ldrb	r0, [r0, #2]	@ zero_extendqisi2
  760              	.LVL51:
   86:Core/BSP/multi_button.c **** }
-ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s 			page 22
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccC8Ymqm.s 			page 22
 
 
  761              		.loc 1 86 15 view .LVU237
@@ -1318,7 +1318,7 @@ ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s 			page 1
  806 0016 8170     		strb	r1, [r0, #2]
  100:Core/BSP/multi_button.c **** 	handle->debounce_cnt = 0;
  807              		.loc 1 100 2 is_stmt 1 view .LVU249
-ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s 			page 23
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccC8Ymqm.s 			page 23
 
 
  100:Core/BSP/multi_button.c **** 	handle->debounce_cnt = 0;
@@ -1378,7 +1378,7 @@ ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s 			page 1
  852 000e 0120     		moveq	r0, #1
  853              	.LVL57:
  112:Core/BSP/multi_button.c **** }
-ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s 			page 24
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccC8Ymqm.s 			page 24
 
 
  854              		.loc 1 112 60 view .LVU262
@@ -1438,7 +1438,7 @@ ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s 			page 1
  894 0008 0B46     		mov	r3, r1
  895              	.LVL62:
  896              	.L58:
-ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s 			page 25
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccC8Ymqm.s 			page 25
 
 
  897              		.loc 1 258 8 is_stmt 1 view .LVU273
@@ -1498,7 +1498,7 @@ ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s 			page 1
  937              	.LVL69:
  270:Core/BSP/multi_button.c **** }
  938              		.loc 1 270 1 view .LVU291
-ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s 			page 26
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccC8Ymqm.s 			page 26
 
 
  939 0028 7047     		bx	lr
@@ -1558,7 +1558,7 @@ ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s 			page 1
  980 000c 02D0     		beq	.L70
  286:Core/BSP/multi_button.c **** 			*curr = entry->next;
  287:Core/BSP/multi_button.c **** 			entry->next = NULL;  // clear next pointer
-ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s 			page 27
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccC8Ymqm.s 			page 27
 
 
  288:Core/BSP/multi_button.c **** 			MULTIBUTTON_UNLOCK();
@@ -1618,7 +1618,7 @@ ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s 			page 1
  1019              		.thumb
  1020              		.thumb_func
  1022              	button_ticks:
-ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s 			page 28
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccC8Ymqm.s 			page 28
 
 
  1023              	.LFB11:
@@ -1678,7 +1678,7 @@ ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s 			page 1
  1053              		.loc 1 318 3 view .LVU328
  1054 000a FFF7FEFF 		bl	button_handler
  1055              	.LVL78:
-ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s 			page 29
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccC8Ymqm.s 			page 29
 
 
  319:Core/BSP/multi_button.c **** 		target = next;
@@ -1718,40 +1718,40 @@ ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s 			page 1
  1089              		.file 3 "d:\\chain\\gcc-arm-none-eabi-10.3-2021.10-win32\\gcc-arm-none-eabi-10.3-2021.10\\arm-none
  1090              		.file 4 "Core/BSP/multi_button.h"
  1091              		.file 5 "<built-in>"
-ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s 			page 30
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccC8Ymqm.s 			page 30
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 multi_button.c
-C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s:20     .text.button_handler:00000000 $t
-C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s:25     .text.button_handler:00000000 button_handler
-C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s:121    .text.button_handler:00000068 $d
-C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s:126    .text.button_handler:00000072 $t
-C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s:544    .text.button_init:00000000 $t
-C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s:550    .text.button_init:00000000 button_init
-C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s:632    .text.button_attach:00000000 $t
-C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s:638    .text.button_attach:00000000 button_attach
-C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s:669    .text.button_detach:00000000 $t
-C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s:675    .text.button_detach:00000000 button_detach
-C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s:704    .text.button_get_event:00000000 $t
-C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s:710    .text.button_get_event:00000000 button_get_event
-C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s:740    .text.button_get_repeat_count:00000000 $t
-C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s:746    .text.button_get_repeat_count:00000000 button_get_repeat_count
-C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s:775    .text.button_reset:00000000 $t
-C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s:781    .text.button_reset:00000000 button_reset
-C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s:827    .text.button_is_pressed:00000000 $t
-C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s:833    .text.button_is_pressed:00000000 button_is_pressed
-C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s:868    .text.button_start:00000000 $t
-C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s:874    .text.button_start:00000000 button_start
-C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s:943    .text.button_start:0000002c $d
-C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s:948    .text.button_stop:00000000 $t
-C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s:954    .text.button_stop:00000000 button_stop
-C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s:1011   .text.button_stop:00000020 $d
-C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s:1016   .text.button_ticks:00000000 $t
-C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s:1022   .text.button_ticks:00000000 button_ticks
-C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s:1075   .text.button_ticks:00000018 $d
-C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s:1080   .bss.head_handle:00000000 $d
-C:\Users\ASUS\AppData\Local\Temp\ccz5ObUH.s:1084   .bss.head_handle:00000000 head_handle
+C:\Users\ASUS\AppData\Local\Temp\ccC8Ymqm.s:20     .text.button_handler:00000000 $t
+C:\Users\ASUS\AppData\Local\Temp\ccC8Ymqm.s:25     .text.button_handler:00000000 button_handler
+C:\Users\ASUS\AppData\Local\Temp\ccC8Ymqm.s:121    .text.button_handler:00000068 $d
+C:\Users\ASUS\AppData\Local\Temp\ccC8Ymqm.s:126    .text.button_handler:00000072 $t
+C:\Users\ASUS\AppData\Local\Temp\ccC8Ymqm.s:544    .text.button_init:00000000 $t
+C:\Users\ASUS\AppData\Local\Temp\ccC8Ymqm.s:550    .text.button_init:00000000 button_init
+C:\Users\ASUS\AppData\Local\Temp\ccC8Ymqm.s:632    .text.button_attach:00000000 $t
+C:\Users\ASUS\AppData\Local\Temp\ccC8Ymqm.s:638    .text.button_attach:00000000 button_attach
+C:\Users\ASUS\AppData\Local\Temp\ccC8Ymqm.s:669    .text.button_detach:00000000 $t
+C:\Users\ASUS\AppData\Local\Temp\ccC8Ymqm.s:675    .text.button_detach:00000000 button_detach
+C:\Users\ASUS\AppData\Local\Temp\ccC8Ymqm.s:704    .text.button_get_event:00000000 $t
+C:\Users\ASUS\AppData\Local\Temp\ccC8Ymqm.s:710    .text.button_get_event:00000000 button_get_event
+C:\Users\ASUS\AppData\Local\Temp\ccC8Ymqm.s:740    .text.button_get_repeat_count:00000000 $t
+C:\Users\ASUS\AppData\Local\Temp\ccC8Ymqm.s:746    .text.button_get_repeat_count:00000000 button_get_repeat_count
+C:\Users\ASUS\AppData\Local\Temp\ccC8Ymqm.s:775    .text.button_reset:00000000 $t
+C:\Users\ASUS\AppData\Local\Temp\ccC8Ymqm.s:781    .text.button_reset:00000000 button_reset
+C:\Users\ASUS\AppData\Local\Temp\ccC8Ymqm.s:827    .text.button_is_pressed:00000000 $t
+C:\Users\ASUS\AppData\Local\Temp\ccC8Ymqm.s:833    .text.button_is_pressed:00000000 button_is_pressed
+C:\Users\ASUS\AppData\Local\Temp\ccC8Ymqm.s:868    .text.button_start:00000000 $t
+C:\Users\ASUS\AppData\Local\Temp\ccC8Ymqm.s:874    .text.button_start:00000000 button_start
+C:\Users\ASUS\AppData\Local\Temp\ccC8Ymqm.s:943    .text.button_start:0000002c $d
+C:\Users\ASUS\AppData\Local\Temp\ccC8Ymqm.s:948    .text.button_stop:00000000 $t
+C:\Users\ASUS\AppData\Local\Temp\ccC8Ymqm.s:954    .text.button_stop:00000000 button_stop
+C:\Users\ASUS\AppData\Local\Temp\ccC8Ymqm.s:1011   .text.button_stop:00000020 $d
+C:\Users\ASUS\AppData\Local\Temp\ccC8Ymqm.s:1016   .text.button_ticks:00000000 $t
+C:\Users\ASUS\AppData\Local\Temp\ccC8Ymqm.s:1022   .text.button_ticks:00000000 button_ticks
+C:\Users\ASUS\AppData\Local\Temp\ccC8Ymqm.s:1075   .text.button_ticks:00000018 $d
+C:\Users\ASUS\AppData\Local\Temp\ccC8Ymqm.s:1080   .bss.head_handle:00000000 $d
+C:\Users\ASUS\AppData\Local\Temp\ccC8Ymqm.s:1084   .bss.head_handle:00000000 head_handle
 
 UNDEFINED SYMBOLS
 memset

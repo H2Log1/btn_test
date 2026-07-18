@@ -40,9 +40,9 @@ Core/Src/main.c \
 Core/Src/gpio.c \
 Core/Src/usart.c \
 Core/Src/dma.c \
-Core/BSP/Emm_V5.c \
-Core/BSP/gimbal.c \
-Core/BSP/multi_button.c \
+Core/Bsp/Emm_V5.c \
+Core/Bsp/gimbal.c \
+Core/Bsp/multi_button.c \
 Core/App/btn_task.c \
 Core/App/motor_task.c \
 Core/Src/stm32f4xx_it.c \
@@ -138,7 +138,7 @@ AS_INCLUDES =
 # C includes
 C_INCLUDES =  \
 -ICore/Inc \
--ICore/BSP \
+-ICore/Bsp \
 -IDrivers/STM32F4xx_HAL_Driver/Inc \
 -IDrivers/STM32F4xx_HAL_Driver/Inc/Legacy \
 -IDrivers/CMSIS/Device/ST/STM32F4xx/Include \
