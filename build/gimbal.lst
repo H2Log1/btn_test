@@ -1,0 +1,411 @@
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccGZqAfU.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"gimbal.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.Limit_Vel,"ax",%progbits
+  20              		.align	1
+  21              		.syntax unified
+  22              		.thumb
+  23              		.thumb_func
+  25              	Limit_Vel:
+  26              	.LVL0:
+  27              	.LFB139:
+  28              		.file 1 "Core/BSP/gimbal.c"
+   1:Core/BSP/gimbal.c **** #include "gimbal.h"
+   2:Core/BSP/gimbal.c **** 
+   3:Core/BSP/gimbal.c **** static Gimbal_Handle gimbal =
+   4:Core/BSP/gimbal.c **** {
+   5:Core/BSP/gimbal.c ****     .yaw_id = GIMBAL_YAW_ID,
+   6:Core/BSP/gimbal.c ****     .pitch_id = GIMBAL_PITCH_ID,
+   7:Core/BSP/gimbal.c ****     .max_vel = 3000,
+   8:Core/BSP/gimbal.c ****     .acc = 50
+   9:Core/BSP/gimbal.c **** };
+  10:Core/BSP/gimbal.c **** 
+  11:Core/BSP/gimbal.c **** /*初始化*/
+  12:Core/BSP/gimbal.c **** void Gimbal_Init(void)
+  13:Core/BSP/gimbal.c **** {
+  14:Core/BSP/gimbal.c ****     /*使能两个电机*/
+  15:Core/BSP/gimbal.c ****     Emm_V5_En_Control(gimbal.yaw_id, true, false);
+  16:Core/BSP/gimbal.c ****     Emm_V5_En_Control(gimbal.pitch_id, true, false);
+  17:Core/BSP/gimbal.c **** }
+  18:Core/BSP/gimbal.c **** 
+  19:Core/BSP/gimbal.c **** /*速度限制*/
+  20:Core/BSP/gimbal.c **** static uint16_t Limit_Vel(int16_t vel)
+  21:Core/BSP/gimbal.c **** {
+  29              		.loc 1 21 1 view -0
+  30              		.cfi_startproc
+  31              		@ args = 0, pretend = 0, frame = 0
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  33              		@ link register save eliminated.
+  22:Core/BSP/gimbal.c ****     if(vel < 0)
+  34              		.loc 1 22 5 view .LVU1
+  35              		.loc 1 22 7 is_stmt 0 view .LVU2
+  36 0000 0028     		cmp	r0, #0
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccGZqAfU.s 			page 2
+
+
+  37              	.LVL1:
+  38              		.loc 1 22 7 view .LVU3
+  39 0002 06DB     		blt	.L5
+  40              	.LVL2:
+  41              	.L2:
+  23:Core/BSP/gimbal.c ****         vel = -vel;
+  24:Core/BSP/gimbal.c ****     if(vel > gimbal.max_vel)
+  42              		.loc 1 24 5 is_stmt 1 view .LVU4
+  43              		.loc 1 24 7 is_stmt 0 view .LVU5
+  44 0004 40F6B833 		movw	r3, #3000
+  45 0008 9842     		cmp	r0, r3
+  46 000a 00DD     		ble	.L3
+  25:Core/BSP/gimbal.c ****         vel=gimbal.max_vel;
+  47              		.loc 1 25 12 view .LVU6
+  48 000c 1846     		mov	r0, r3
+  49              	.LVL3:
+  50              	.L3:
+  26:Core/BSP/gimbal.c ****     return vel;
+  51              		.loc 1 26 5 is_stmt 1 view .LVU7
+  27:Core/BSP/gimbal.c **** 
+  28:Core/BSP/gimbal.c **** }
+  52              		.loc 1 28 1 is_stmt 0 view .LVU8
+  53 000e 80B2     		uxth	r0, r0
+  54              		.loc 1 28 1 view .LVU9
+  55 0010 7047     		bx	lr
+  56              	.LVL4:
+  57              	.L5:
+  23:Core/BSP/gimbal.c ****     if(vel > gimbal.max_vel)
+  58              		.loc 1 23 9 is_stmt 1 view .LVU10
+  23:Core/BSP/gimbal.c ****     if(vel > gimbal.max_vel)
+  59              		.loc 1 23 13 is_stmt 0 view .LVU11
+  60 0012 4042     		rsbs	r0, r0, #0
+  61 0014 00B2     		sxth	r0, r0
+  62              	.LVL5:
+  23:Core/BSP/gimbal.c ****     if(vel > gimbal.max_vel)
+  63              		.loc 1 23 13 view .LVU12
+  64 0016 F5E7     		b	.L2
+  65              		.cfi_endproc
+  66              	.LFE139:
+  68              		.section	.text.Motor_Vel_Set,"ax",%progbits
+  69              		.align	1
+  70              		.syntax unified
+  71              		.thumb
+  72              		.thumb_func
+  74              	Motor_Vel_Set:
+  75              	.LVL6:
+  76              	.LFB140:
+  29:Core/BSP/gimbal.c **** 
+  30:Core/BSP/gimbal.c **** /*单轴控制*/
+  31:Core/BSP/gimbal.c **** static void Motor_Vel_Set(uint8_t id, int16_t vel) {
+  77              		.loc 1 31 52 is_stmt 1 view -0
+  78              		.cfi_startproc
+  79              		@ args = 0, pretend = 0, frame = 0
+  80              		@ frame_needed = 0, uses_anonymous_args = 0
+  81              		.loc 1 31 52 is_stmt 0 view .LVU14
+  82 0000 30B5     		push	{r4, r5, lr}
+  83              	.LCFI0:
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccGZqAfU.s 			page 3
+
+
+  84              		.cfi_def_cfa_offset 12
+  85              		.cfi_offset 4, -12
+  86              		.cfi_offset 5, -8
+  87              		.cfi_offset 14, -4
+  88 0002 83B0     		sub	sp, sp, #12
+  89              	.LCFI1:
+  90              		.cfi_def_cfa_offset 24
+  91 0004 0446     		mov	r4, r0
+  32:Core/BSP/gimbal.c ****     uint8_t dir;
+  92              		.loc 1 32 5 is_stmt 1 view .LVU15
+  33:Core/BSP/gimbal.c ****     if (vel>=0) {
+  93              		.loc 1 33 5 view .LVU16
+  94              		.loc 1 33 8 is_stmt 0 view .LVU17
+  95 0006 081E     		subs	r0, r1, #0
+  96              	.LVL7:
+  97              		.loc 1 33 8 view .LVU18
+  98 0008 0CDB     		blt	.L8
+  34:Core/BSP/gimbal.c ****         dir=MOTOR_CW;
+  99              		.loc 1 34 12 view .LVU19
+ 100 000a 0025     		movs	r5, #0
+ 101              	.L7:
+ 102              	.LVL8:
+  35:Core/BSP/gimbal.c ****     }
+  36:Core/BSP/gimbal.c ****     else {
+  37:Core/BSP/gimbal.c ****         dir=MOTOR_CCW;
+  38:Core/BSP/gimbal.c ****     }
+  39:Core/BSP/gimbal.c ****     Emm_V5_Vel_Control(id, dir, Limit_Vel(vel), gimbal.acc, false);
+ 103              		.loc 1 39 5 is_stmt 1 view .LVU20
+ 104 000c FFF7FEFF 		bl	Limit_Vel
+ 105              	.LVL9:
+ 106              		.loc 1 39 5 is_stmt 0 view .LVU21
+ 107 0010 0246     		mov	r2, r0
+ 108 0012 0023     		movs	r3, #0
+ 109 0014 0093     		str	r3, [sp]
+ 110 0016 3223     		movs	r3, #50
+ 111 0018 2946     		mov	r1, r5
+ 112 001a 2046     		mov	r0, r4
+ 113 001c FFF7FEFF 		bl	Emm_V5_Vel_Control
+ 114              	.LVL10:
+  40:Core/BSP/gimbal.c **** }
+ 115              		.loc 1 40 1 view .LVU22
+ 116 0020 03B0     		add	sp, sp, #12
+ 117              	.LCFI2:
+ 118              		.cfi_remember_state
+ 119              		.cfi_def_cfa_offset 12
+ 120              		@ sp needed
+ 121 0022 30BD     		pop	{r4, r5, pc}
+ 122              	.LVL11:
+ 123              	.L8:
+ 124              	.LCFI3:
+ 125              		.cfi_restore_state
+  37:Core/BSP/gimbal.c ****     }
+ 126              		.loc 1 37 12 view .LVU23
+ 127 0024 0125     		movs	r5, #1
+ 128 0026 F1E7     		b	.L7
+ 129              		.cfi_endproc
+ 130              	.LFE140:
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccGZqAfU.s 			page 4
+
+
+ 132              		.section	.text.Gimbal_Init,"ax",%progbits
+ 133              		.align	1
+ 134              		.global	Gimbal_Init
+ 135              		.syntax unified
+ 136              		.thumb
+ 137              		.thumb_func
+ 139              	Gimbal_Init:
+ 140              	.LFB138:
+  13:Core/BSP/gimbal.c ****     /*使能两个电机*/
+ 141              		.loc 1 13 1 is_stmt 1 view -0
+ 142              		.cfi_startproc
+ 143              		@ args = 0, pretend = 0, frame = 0
+ 144              		@ frame_needed = 0, uses_anonymous_args = 0
+ 145 0000 08B5     		push	{r3, lr}
+ 146              	.LCFI4:
+ 147              		.cfi_def_cfa_offset 8
+ 148              		.cfi_offset 3, -8
+ 149              		.cfi_offset 14, -4
+  15:Core/BSP/gimbal.c ****     Emm_V5_En_Control(gimbal.pitch_id, true, false);
+ 150              		.loc 1 15 5 view .LVU25
+ 151 0002 0022     		movs	r2, #0
+ 152 0004 0121     		movs	r1, #1
+ 153 0006 0220     		movs	r0, #2
+ 154 0008 FFF7FEFF 		bl	Emm_V5_En_Control
+ 155              	.LVL12:
+  16:Core/BSP/gimbal.c **** }
+ 156              		.loc 1 16 5 view .LVU26
+ 157 000c 0022     		movs	r2, #0
+ 158 000e 0121     		movs	r1, #1
+ 159 0010 0846     		mov	r0, r1
+ 160 0012 FFF7FEFF 		bl	Emm_V5_En_Control
+ 161              	.LVL13:
+  17:Core/BSP/gimbal.c **** 
+ 162              		.loc 1 17 1 is_stmt 0 view .LVU27
+ 163 0016 08BD     		pop	{r3, pc}
+ 164              		.cfi_endproc
+ 165              	.LFE138:
+ 167              		.section	.text.Gimbal_Move,"ax",%progbits
+ 168              		.align	1
+ 169              		.global	Gimbal_Move
+ 170              		.syntax unified
+ 171              		.thumb
+ 172              		.thumb_func
+ 174              	Gimbal_Move:
+ 175              	.LVL14:
+ 176              	.LFB141:
+  41:Core/BSP/gimbal.c **** 
+  42:Core/BSP/gimbal.c **** /*
+  43:Core/BSP/gimbal.c **** 云台运动
+  44:Core/BSP/gimbal.c **** yaw:水平
+  45:Core/BSP/gimbal.c **** pitch:俯仰
+  46:Core/BSP/gimbal.c **** */
+  47:Core/BSP/gimbal.c **** void Gimbal_Move(int16_t yaw_vel, int16_t pitch_vel) {
+ 177              		.loc 1 47 54 is_stmt 1 view -0
+ 178              		.cfi_startproc
+ 179              		@ args = 0, pretend = 0, frame = 0
+ 180              		@ frame_needed = 0, uses_anonymous_args = 0
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccGZqAfU.s 			page 5
+
+
+ 181              		.loc 1 47 54 is_stmt 0 view .LVU29
+ 182 0000 10B5     		push	{r4, lr}
+ 183              	.LCFI5:
+ 184              		.cfi_def_cfa_offset 8
+ 185              		.cfi_offset 4, -8
+ 186              		.cfi_offset 14, -4
+ 187 0002 0C46     		mov	r4, r1
+  48:Core/BSP/gimbal.c ****     Motor_Vel_Set(gimbal.yaw_id, yaw_vel);
+ 188              		.loc 1 48 5 is_stmt 1 view .LVU30
+ 189 0004 0146     		mov	r1, r0
+ 190              	.LVL15:
+ 191              		.loc 1 48 5 is_stmt 0 view .LVU31
+ 192 0006 0220     		movs	r0, #2
+ 193              	.LVL16:
+ 194              		.loc 1 48 5 view .LVU32
+ 195 0008 FFF7FEFF 		bl	Motor_Vel_Set
+ 196              	.LVL17:
+  49:Core/BSP/gimbal.c ****     Motor_Vel_Set(gimbal.pitch_id, pitch_vel);
+ 197              		.loc 1 49 5 is_stmt 1 view .LVU33
+ 198 000c 2146     		mov	r1, r4
+ 199 000e 0120     		movs	r0, #1
+ 200 0010 FFF7FEFF 		bl	Motor_Vel_Set
+ 201              	.LVL18:
+  50:Core/BSP/gimbal.c **** }
+ 202              		.loc 1 50 1 is_stmt 0 view .LVU34
+ 203 0014 10BD     		pop	{r4, pc}
+ 204              		.cfi_endproc
+ 205              	.LFE141:
+ 207              		.section	.text.Gimbal_Yaw,"ax",%progbits
+ 208              		.align	1
+ 209              		.global	Gimbal_Yaw
+ 210              		.syntax unified
+ 211              		.thumb
+ 212              		.thumb_func
+ 214              	Gimbal_Yaw:
+ 215              	.LVL19:
+ 216              	.LFB142:
+  51:Core/BSP/gimbal.c **** 
+  52:Core/BSP/gimbal.c **** void Gimbal_Yaw(int16_t vel) {
+ 217              		.loc 1 52 30 is_stmt 1 view -0
+ 218              		.cfi_startproc
+ 219              		@ args = 0, pretend = 0, frame = 0
+ 220              		@ frame_needed = 0, uses_anonymous_args = 0
+ 221              		.loc 1 52 30 is_stmt 0 view .LVU36
+ 222 0000 08B5     		push	{r3, lr}
+ 223              	.LCFI6:
+ 224              		.cfi_def_cfa_offset 8
+ 225              		.cfi_offset 3, -8
+ 226              		.cfi_offset 14, -4
+ 227 0002 0146     		mov	r1, r0
+  53:Core/BSP/gimbal.c ****     Motor_Vel_Set(gimbal.yaw_id, vel);
+ 228              		.loc 1 53 5 is_stmt 1 view .LVU37
+ 229 0004 0220     		movs	r0, #2
+ 230              	.LVL20:
+ 231              		.loc 1 53 5 is_stmt 0 view .LVU38
+ 232 0006 FFF7FEFF 		bl	Motor_Vel_Set
+ 233              	.LVL21:
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccGZqAfU.s 			page 6
+
+
+  54:Core/BSP/gimbal.c **** }
+ 234              		.loc 1 54 1 view .LVU39
+ 235 000a 08BD     		pop	{r3, pc}
+ 236              		.cfi_endproc
+ 237              	.LFE142:
+ 239              		.section	.text.Gimbal_Pitch,"ax",%progbits
+ 240              		.align	1
+ 241              		.global	Gimbal_Pitch
+ 242              		.syntax unified
+ 243              		.thumb
+ 244              		.thumb_func
+ 246              	Gimbal_Pitch:
+ 247              	.LVL22:
+ 248              	.LFB143:
+  55:Core/BSP/gimbal.c **** 
+  56:Core/BSP/gimbal.c **** void Gimbal_Pitch(int16_t vel) {
+ 249              		.loc 1 56 32 is_stmt 1 view -0
+ 250              		.cfi_startproc
+ 251              		@ args = 0, pretend = 0, frame = 0
+ 252              		@ frame_needed = 0, uses_anonymous_args = 0
+ 253              		.loc 1 56 32 is_stmt 0 view .LVU41
+ 254 0000 08B5     		push	{r3, lr}
+ 255              	.LCFI7:
+ 256              		.cfi_def_cfa_offset 8
+ 257              		.cfi_offset 3, -8
+ 258              		.cfi_offset 14, -4
+ 259 0002 0146     		mov	r1, r0
+  57:Core/BSP/gimbal.c ****     Motor_Vel_Set(gimbal.pitch_id, vel);
+ 260              		.loc 1 57 5 is_stmt 1 view .LVU42
+ 261 0004 0120     		movs	r0, #1
+ 262              	.LVL23:
+ 263              		.loc 1 57 5 is_stmt 0 view .LVU43
+ 264 0006 FFF7FEFF 		bl	Motor_Vel_Set
+ 265              	.LVL24:
+  58:Core/BSP/gimbal.c **** }
+ 266              		.loc 1 58 1 view .LVU44
+ 267 000a 08BD     		pop	{r3, pc}
+ 268              		.cfi_endproc
+ 269              	.LFE143:
+ 271              		.section	.text.Gimbal_Stop,"ax",%progbits
+ 272              		.align	1
+ 273              		.global	Gimbal_Stop
+ 274              		.syntax unified
+ 275              		.thumb
+ 276              		.thumb_func
+ 278              	Gimbal_Stop:
+ 279              	.LFB144:
+  59:Core/BSP/gimbal.c **** 
+  60:Core/BSP/gimbal.c **** void Gimbal_Stop(void) {
+ 280              		.loc 1 60 24 is_stmt 1 view -0
+ 281              		.cfi_startproc
+ 282              		@ args = 0, pretend = 0, frame = 0
+ 283              		@ frame_needed = 0, uses_anonymous_args = 0
+ 284 0000 08B5     		push	{r3, lr}
+ 285              	.LCFI8:
+ 286              		.cfi_def_cfa_offset 8
+ 287              		.cfi_offset 3, -8
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccGZqAfU.s 			page 7
+
+
+ 288              		.cfi_offset 14, -4
+  61:Core/BSP/gimbal.c ****     Emm_V5_Stop_Now(gimbal.yaw_id, false);
+ 289              		.loc 1 61 5 view .LVU46
+ 290 0002 0021     		movs	r1, #0
+ 291 0004 0220     		movs	r0, #2
+ 292 0006 FFF7FEFF 		bl	Emm_V5_Stop_Now
+ 293              	.LVL25:
+  62:Core/BSP/gimbal.c ****     Emm_V5_Stop_Now(gimbal.pitch_id, false);
+ 294              		.loc 1 62 5 view .LVU47
+ 295 000a 0021     		movs	r1, #0
+ 296 000c 0120     		movs	r0, #1
+ 297 000e FFF7FEFF 		bl	Emm_V5_Stop_Now
+ 298              	.LVL26:
+  63:Core/BSP/gimbal.c **** }...
+ 299              		.loc 1 63 1 is_stmt 0 view .LVU48
+ 300 0012 08BD     		pop	{r3, pc}
+ 301              		.cfi_endproc
+ 302              	.LFE144:
+ 304              		.text
+ 305              	.Letext0:
+ 306              		.file 2 "d:\\chain\\gcc-arm-none-eabi-10.3-2021.10-win32\\gcc-arm-none-eabi-10.3-2021.10\\arm-none
+ 307              		.file 3 "d:\\chain\\gcc-arm-none-eabi-10.3-2021.10-win32\\gcc-arm-none-eabi-10.3-2021.10\\arm-none
+ 308              		.file 4 "Core/BSP/gimbal.h"
+ 309              		.file 5 "Core/BSP/Emm_V5.h"
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccGZqAfU.s 			page 8
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 gimbal.c
+C:\Users\ASUS\AppData\Local\Temp\ccGZqAfU.s:20     .text.Limit_Vel:00000000 $t
+C:\Users\ASUS\AppData\Local\Temp\ccGZqAfU.s:25     .text.Limit_Vel:00000000 Limit_Vel
+C:\Users\ASUS\AppData\Local\Temp\ccGZqAfU.s:69     .text.Motor_Vel_Set:00000000 $t
+C:\Users\ASUS\AppData\Local\Temp\ccGZqAfU.s:74     .text.Motor_Vel_Set:00000000 Motor_Vel_Set
+C:\Users\ASUS\AppData\Local\Temp\ccGZqAfU.s:133    .text.Gimbal_Init:00000000 $t
+C:\Users\ASUS\AppData\Local\Temp\ccGZqAfU.s:139    .text.Gimbal_Init:00000000 Gimbal_Init
+C:\Users\ASUS\AppData\Local\Temp\ccGZqAfU.s:168    .text.Gimbal_Move:00000000 $t
+C:\Users\ASUS\AppData\Local\Temp\ccGZqAfU.s:174    .text.Gimbal_Move:00000000 Gimbal_Move
+C:\Users\ASUS\AppData\Local\Temp\ccGZqAfU.s:208    .text.Gimbal_Yaw:00000000 $t
+C:\Users\ASUS\AppData\Local\Temp\ccGZqAfU.s:214    .text.Gimbal_Yaw:00000000 Gimbal_Yaw
+C:\Users\ASUS\AppData\Local\Temp\ccGZqAfU.s:240    .text.Gimbal_Pitch:00000000 $t
+C:\Users\ASUS\AppData\Local\Temp\ccGZqAfU.s:246    .text.Gimbal_Pitch:00000000 Gimbal_Pitch
+C:\Users\ASUS\AppData\Local\Temp\ccGZqAfU.s:272    .text.Gimbal_Stop:00000000 $t
+C:\Users\ASUS\AppData\Local\Temp\ccGZqAfU.s:278    .text.Gimbal_Stop:00000000 Gimbal_Stop
+
+UNDEFINED SYMBOLS
+Emm_V5_Vel_Control
+Emm_V5_En_Control
+Emm_V5_Stop_Now

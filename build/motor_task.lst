@@ -1,0 +1,317 @@
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccBWI181.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"motor_task.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.global	__aeabi_dmul
+  20              		.global	__aeabi_d2uiz
+  21              		.section	.text.StartMotorTask,"ax",%progbits
+  22              		.align	1
+  23              		.global	StartMotorTask
+  24              		.syntax unified
+  25              		.thumb
+  26              		.thumb_func
+  28              	StartMotorTask:
+  29              	.LVL0:
+  30              	.LFB138:
+  31              		.file 1 "Core/App/motor_task.c"
+   1:Core/App/motor_task.c **** #include "cmsis_os.h"
+   2:Core/App/motor_task.c **** #include "main.h"
+   3:Core/App/motor_task.c **** #include "Emm_V5.h"
+   4:Core/App/motor_task.c **** #include "stdbool.h"
+   5:Core/App/motor_task.c **** 
+   6:Core/App/motor_task.c **** typedef struct MOTOR{
+   7:Core/App/motor_task.c ****     uint8_t addr;
+   8:Core/App/motor_task.c ****     uint8_t dir[2];
+   9:Core/App/motor_task.c ****     uint16_t vel;
+  10:Core/App/motor_task.c ****     uint8_t acc;
+  11:Core/App/motor_task.c ****     double round;
+  12:Core/App/motor_task.c ****     bool snF;
+  13:Core/App/motor_task.c ****     bool svF;
+  14:Core/App/motor_task.c **** } MOTOR;
+  15:Core/App/motor_task.c **** 
+  16:Core/App/motor_task.c **** MOTOR motor[2] = {
+  17:Core/App/motor_task.c ****     {0x01, {0x01, 0x00}, 2000, 200, 1, true, true}, 
+  18:Core/App/motor_task.c ****     {0x02, {0x00, 0x01}, 2000, 200, 1, true, true} 
+  19:Core/App/motor_task.c ****     // {0x01, {0x01, 0x00}, 2000, 200, 0.05, false, true}, 
+  20:Core/App/motor_task.c ****     // {0x02, {0x00, 0x01}, 2000, 200, 0.1, false, true}  
+  21:Core/App/motor_task.c **** };
+  22:Core/App/motor_task.c **** 
+  23:Core/App/motor_task.c **** void StartMotorTask(void *argument){
+  32              		.loc 1 23 36 view -0
+  33              		.cfi_startproc
+  34              		@ Volatile: function does not return.
+  35              		@ args = 0, pretend = 0, frame = 0
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccBWI181.s 			page 2
+
+
+  36              		@ frame_needed = 0, uses_anonymous_args = 0
+  37              		.loc 1 23 36 is_stmt 0 view .LVU1
+  38 0000 80B5     		push	{r7, lr}
+  39              	.LCFI0:
+  40              		.cfi_def_cfa_offset 8
+  41              		.cfi_offset 7, -8
+  42              		.cfi_offset 14, -4
+  43 0002 84B0     		sub	sp, sp, #16
+  44              	.LCFI1:
+  45              		.cfi_def_cfa_offset 24
+  24:Core/App/motor_task.c ****     Emm_V5_En_Control(motor[0].addr, true, motor[0].snF);
+  46              		.loc 1 24 5 is_stmt 1 view .LVU2
+  47 0004 304C     		ldr	r4, .L7
+  48 0006 227C     		ldrb	r2, [r4, #16]	@ zero_extendqisi2
+  49 0008 0121     		movs	r1, #1
+  50 000a 2078     		ldrb	r0, [r4]	@ zero_extendqisi2
+  51              	.LVL1:
+  52              		.loc 1 24 5 is_stmt 0 view .LVU3
+  53 000c FFF7FEFF 		bl	Emm_V5_En_Control
+  54              	.LVL2:
+  25:Core/App/motor_task.c ****     osDelay(10);
+  55              		.loc 1 25 5 is_stmt 1 view .LVU4
+  56 0010 0A20     		movs	r0, #10
+  57 0012 FFF7FEFF 		bl	osDelay
+  58              	.LVL3:
+  26:Core/App/motor_task.c ****     Emm_V5_En_Control(motor[1].addr, true, motor[1].snF);
+  59              		.loc 1 26 5 view .LVU5
+  60 0016 94F82820 		ldrb	r2, [r4, #40]	@ zero_extendqisi2
+  61 001a 0121     		movs	r1, #1
+  62 001c 207E     		ldrb	r0, [r4, #24]	@ zero_extendqisi2
+  63 001e FFF7FEFF 		bl	Emm_V5_En_Control
+  64              	.LVL4:
+  27:Core/App/motor_task.c ****     osDelay(10);
+  65              		.loc 1 27 5 view .LVU6
+  66 0022 0A20     		movs	r0, #10
+  67 0024 FFF7FEFF 		bl	osDelay
+  68              	.LVL5:
+  69 0028 3BE0     		b	.L2
+  70              	.L6:
+  28:Core/App/motor_task.c **** 
+  29:Core/App/motor_task.c ****     // Emm_V5_Origin_Set_O(motor[0].addr, motor[0].svF);
+  30:Core/App/motor_task.c ****     // osDelay(10);
+  31:Core/App/motor_task.c ****     // Emm_V5_Origin_Set_O(motor[1].addr, motor[1].svF);
+  32:Core/App/motor_task.c ****     // osDelay(10);
+  33:Core/App/motor_task.c **** 
+  34:Core/App/motor_task.c ****     for(;;){
+  35:Core/App/motor_task.c ****         osMessageQueueGet(BtnQueueHandle, &click, 0, osWaitForever);
+  36:Core/App/motor_task.c ****         if (click == 1) {
+  37:Core/App/motor_task.c ****             Emm_V5_Pos_Control(motor[0].addr, motor[0].dir[0], motor[0].vel, motor[0].acc, 3200*mot
+  71              		.loc 1 37 13 view .LVU7
+  72              		.loc 1 37 105 is_stmt 0 view .LVU8
+  73 002a 274C     		ldr	r4, .L7
+  74              		.loc 1 37 96 view .LVU9
+  75 002c 0022     		movs	r2, #0
+  76 002e 274B     		ldr	r3, .L7+4
+  77 0030 D4E90201 		ldrd	r0, [r4, #8]
+  78 0034 FFF7FEFF 		bl	__aeabi_dmul
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccBWI181.s 			page 3
+
+
+  79              	.LVL6:
+  80              		.loc 1 37 13 view .LVU10
+  81 0038 94F80690 		ldrb	r9, [r4, #6]	@ zero_extendqisi2
+  82 003c B4F80480 		ldrh	r8, [r4, #4]
+  83 0040 6778     		ldrb	r7, [r4, #1]	@ zero_extendqisi2
+  84 0042 2678     		ldrb	r6, [r4]	@ zero_extendqisi2
+  85 0044 237C     		ldrb	r3, [r4, #16]	@ zero_extendqisi2
+  86 0046 0293     		str	r3, [sp, #8]
+  87 0048 0025     		movs	r5, #0
+  88 004a 0195     		str	r5, [sp, #4]
+  89 004c FFF7FEFF 		bl	__aeabi_d2uiz
+  90              	.LVL7:
+  91 0050 0090     		str	r0, [sp]
+  92 0052 4B46     		mov	r3, r9
+  93 0054 4246     		mov	r2, r8
+  94 0056 3946     		mov	r1, r7
+  95 0058 3046     		mov	r0, r6
+  96 005a FFF7FEFF 		bl	Emm_V5_Pos_Control
+  97              	.LVL8:
+  38:Core/App/motor_task.c ****             osDelay(10);
+  98              		.loc 1 38 13 is_stmt 1 view .LVU11
+  99 005e 0A20     		movs	r0, #10
+ 100 0060 FFF7FEFF 		bl	osDelay
+ 101              	.LVL9:
+  39:Core/App/motor_task.c ****             Emm_V5_Pos_Control(motor[1].addr, motor[1].dir[1], motor[1].vel, motor[1].acc, 3200*mot
+ 102              		.loc 1 39 13 view .LVU12
+ 103              		.loc 1 39 96 is_stmt 0 view .LVU13
+ 104 0064 0022     		movs	r2, #0
+ 105 0066 194B     		ldr	r3, .L7+4
+ 106 0068 D4E90801 		ldrd	r0, [r4, #32]
+ 107 006c FFF7FEFF 		bl	__aeabi_dmul
+ 108              	.LVL10:
+ 109              		.loc 1 39 13 view .LVU14
+ 110 0070 94F81E90 		ldrb	r9, [r4, #30]	@ zero_extendqisi2
+ 111 0074 B4F81C80 		ldrh	r8, [r4, #28]
+ 112 0078 A77E     		ldrb	r7, [r4, #26]	@ zero_extendqisi2
+ 113 007a 267E     		ldrb	r6, [r4, #24]	@ zero_extendqisi2
+ 114 007c 94F82830 		ldrb	r3, [r4, #40]	@ zero_extendqisi2
+ 115 0080 0293     		str	r3, [sp, #8]
+ 116 0082 0195     		str	r5, [sp, #4]
+ 117 0084 FFF7FEFF 		bl	__aeabi_d2uiz
+ 118              	.LVL11:
+ 119 0088 0090     		str	r0, [sp]
+ 120 008a 4B46     		mov	r3, r9
+ 121 008c 4246     		mov	r2, r8
+ 122 008e 3946     		mov	r1, r7
+ 123 0090 3046     		mov	r0, r6
+ 124 0092 FFF7FEFF 		bl	Emm_V5_Pos_Control
+ 125              	.LVL12:
+  40:Core/App/motor_task.c ****             osDelay(10);
+ 126              		.loc 1 40 13 is_stmt 1 view .LVU15
+ 127 0096 0A20     		movs	r0, #10
+ 128 0098 FFF7FEFF 		bl	osDelay
+ 129              	.LVL13:
+  41:Core/App/motor_task.c ****             Emm_V5_Synchronous_motion(0x00);
+ 130              		.loc 1 41 13 view .LVU16
+ 131 009c 2846     		mov	r0, r5
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccBWI181.s 			page 4
+
+
+ 132 009e FFF7FEFF 		bl	Emm_V5_Synchronous_motion
+ 133              	.LVL14:
+ 134              	.L2:
+  34:Core/App/motor_task.c ****         osMessageQueueGet(BtnQueueHandle, &click, 0, osWaitForever);
+ 135              		.loc 1 34 5 view .LVU17
+  35:Core/App/motor_task.c ****         if (click == 1) {
+ 136              		.loc 1 35 9 view .LVU18
+ 137 00a2 0B4C     		ldr	r4, .L7+8
+ 138 00a4 4FF0FF33 		mov	r3, #-1
+ 139 00a8 0022     		movs	r2, #0
+ 140 00aa 2146     		mov	r1, r4
+ 141 00ac 0948     		ldr	r0, .L7+12
+ 142 00ae 0068     		ldr	r0, [r0]
+ 143 00b0 FFF7FEFF 		bl	osMessageQueueGet
+ 144              	.LVL15:
+  36:Core/App/motor_task.c ****             Emm_V5_Pos_Control(motor[0].addr, motor[0].dir[0], motor[0].vel, motor[0].acc, 3200*mot
+ 145              		.loc 1 36 9 view .LVU19
+  36:Core/App/motor_task.c ****             Emm_V5_Pos_Control(motor[0].addr, motor[0].dir[0], motor[0].vel, motor[0].acc, 3200*mot
+ 146              		.loc 1 36 19 is_stmt 0 view .LVU20
+ 147 00b4 2388     		ldrh	r3, [r4]
+  36:Core/App/motor_task.c ****             Emm_V5_Pos_Control(motor[0].addr, motor[0].dir[0], motor[0].vel, motor[0].acc, 3200*mot
+ 148              		.loc 1 36 12 view .LVU21
+ 149 00b6 012B     		cmp	r3, #1
+ 150 00b8 B7D0     		beq	.L6
+  42:Core/App/motor_task.c **** 
+  43:Core/App/motor_task.c ****             // Emm_V5_Pos_Control(motor[0].addr, motor[0].dir[0], motor[0].vel, motor[0].acc, 3200*
+  44:Core/App/motor_task.c ****             // osDelay(1000);
+  45:Core/App/motor_task.c ****             // Emm_V5_Pos_Control(motor[1].addr, motor[1].dir[1], motor[1].vel, motor[1].acc, 3200*
+  46:Core/App/motor_task.c ****             // osDelay(1000);
+  47:Core/App/motor_task.c ****             // Emm_V5_Pos_Control(motor[0].addr, motor[0].dir[1], motor[0].vel, motor[0].acc, 3200*
+  48:Core/App/motor_task.c ****             // osDelay(1000);
+  49:Core/App/motor_task.c ****             // Emm_V5_Pos_Control(motor[1].addr, motor[1].dir[0], motor[1].vel, motor[1].acc, 3200*
+  50:Core/App/motor_task.c ****             // osDelay(1000);
+  51:Core/App/motor_task.c **** 
+  52:Core/App/motor_task.c ****             // Emm_V5_Synchronous_motion(0x00);
+  53:Core/App/motor_task.c **** 
+  54:Core/App/motor_task.c **** 
+  55:Core/App/motor_task.c **** 
+  56:Core/App/motor_task.c **** 
+  57:Core/App/motor_task.c **** 
+  58:Core/App/motor_task.c ****         }
+  59:Core/App/motor_task.c ****         else if(click == 2)
+ 151              		.loc 1 59 14 is_stmt 1 view .LVU22
+ 152              		.loc 1 59 16 is_stmt 0 view .LVU23
+ 153 00ba 022B     		cmp	r3, #2
+ 154 00bc F1D1     		bne	.L2
+  60:Core/App/motor_task.c ****         {
+  61:Core/App/motor_task.c ****             // Emm_V5_Pos_Control(motor[0].addr, motor[0].dir[1], motor[0].vel, motor[0].acc, 3200*
+  62:Core/App/motor_task.c ****             // osDelay(10);
+  63:Core/App/motor_task.c ****             // Emm_V5_Pos_Control(motor[1].addr, motor[1].dir[0], motor[1].vel, motor[1].acc, 3200*
+  64:Core/App/motor_task.c ****             // osDelay(10);
+  65:Core/App/motor_task.c ****             // Emm_V5_Synchronous_motion(0x00);
+  66:Core/App/motor_task.c **** 
+  67:Core/App/motor_task.c ****             // Emm_V5_Origin_Trigger_Return(motor[0].addr, 0x00, motor[0].snF);
+  68:Core/App/motor_task.c ****             // osDelay(10);
+  69:Core/App/motor_task.c ****             // Emm_V5_Origin_Trigger_Return(motor[1].addr, 0x00, motor[1].snF);
+  70:Core/App/motor_task.c ****             // osDelay(10);
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccBWI181.s 			page 5
+
+
+  71:Core/App/motor_task.c ****             // Emm_V5_Synchronous_motion(0x00);
+  72:Core/App/motor_task.c **** 
+  73:Core/App/motor_task.c ****             osDelay(10);
+ 155              		.loc 1 73 13 is_stmt 1 view .LVU24
+ 156 00be 0A20     		movs	r0, #10
+ 157 00c0 FFF7FEFF 		bl	osDelay
+ 158              	.LVL16:
+ 159 00c4 EDE7     		b	.L2
+ 160              	.L8:
+ 161 00c6 00BF     		.align	2
+ 162              	.L7:
+ 163 00c8 00000000 		.word	.LANCHOR0
+ 164 00cc 0000A940 		.word	1084817408
+ 165 00d0 00000000 		.word	click
+ 166 00d4 00000000 		.word	BtnQueueHandle
+ 167              		.cfi_endproc
+ 168              	.LFE138:
+ 170              		.global	motor
+ 171              		.section	.data.motor,"aw"
+ 172              		.align	3
+ 173              		.set	.LANCHOR0,. + 0
+ 176              	motor:
+ 177 0000 01       		.byte	1
+ 178 0001 0100     		.ascii	"\001\000"
+ 179 0003 00       		.space	1
+ 180 0004 D007     		.short	2000
+ 181 0006 C8       		.byte	-56
+ 182 0007 00       		.space	1
+ 183 0008 00000000 		.word	0
+ 184 000c 0000F03F 		.word	1072693248
+ 185 0010 01       		.byte	1
+ 186 0011 01       		.byte	1
+ 187 0012 00000000 		.space	6
+ 187      0000
+ 188 0018 02       		.byte	2
+ 189 0019 0001     		.ascii	"\000\001"
+ 190 001b 00       		.space	1
+ 191 001c D007     		.short	2000
+ 192 001e C8       		.byte	-56
+ 193 001f 00       		.space	1
+ 194 0020 00000000 		.word	0
+ 195 0024 0000F03F 		.word	1072693248
+ 196 0028 01       		.byte	1
+ 197 0029 01       		.byte	1
+ 198 002a 00000000 		.space	6
+ 198      0000
+ 199              		.text
+ 200              	.Letext0:
+ 201              		.file 2 "d:\\chain\\gcc-arm-none-eabi-10.3-2021.10-win32\\gcc-arm-none-eabi-10.3-2021.10\\arm-none
+ 202              		.file 3 "d:\\chain\\gcc-arm-none-eabi-10.3-2021.10-win32\\gcc-arm-none-eabi-10.3-2021.10\\arm-none
+ 203              		.file 4 "Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h"
+ 204              		.file 5 "Core/Inc/main.h"
+ 205              		.file 6 "Core/BSP/Emm_V5.h"
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccBWI181.s 			page 6
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 motor_task.c
+C:\Users\ASUS\AppData\Local\Temp\ccBWI181.s:22     .text.StartMotorTask:00000000 $t
+C:\Users\ASUS\AppData\Local\Temp\ccBWI181.s:28     .text.StartMotorTask:00000000 StartMotorTask
+C:\Users\ASUS\AppData\Local\Temp\ccBWI181.s:163    .text.StartMotorTask:000000c8 $d
+C:\Users\ASUS\AppData\Local\Temp\ccBWI181.s:176    .data.motor:00000000 motor
+C:\Users\ASUS\AppData\Local\Temp\ccBWI181.s:172    .data.motor:00000000 $d
+
+UNDEFINED SYMBOLS
+__aeabi_dmul
+__aeabi_d2uiz
+Emm_V5_En_Control
+osDelay
+Emm_V5_Pos_Control
+Emm_V5_Synchronous_motion
+osMessageQueueGet
+click
+BtnQueueHandle
