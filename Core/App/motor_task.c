@@ -111,6 +111,8 @@ void StartMotorTask(void *argument){
 
             Emm_V5_Stop_Now(motor[1].addr, motor[1].snF);
 
+            osDelay(10);
+
 
 
         }
