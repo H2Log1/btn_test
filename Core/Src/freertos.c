@@ -66,6 +66,11 @@ osMessageQueueId_t BtnQueueHandle;
 const osMessageQueueAttr_t BtnQueue_attributes = {
   .name = "BtnQueue"
 };
+/* Definitions for EncoderQueue */
+osMessageQueueId_t EncoderQueueHandle;
+const osMessageQueueAttr_t EncoderQueue_attributes = {
+  .name = "EncoderQueue"
+};
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
@@ -102,6 +107,9 @@ void MX_FREERTOS_Init(void) {
   /* Create the queue(s) */
   /* creation of BtnQueue */
   BtnQueueHandle = osMessageQueueNew (16, sizeof(uint16_t), &BtnQueue_attributes);
+
+  /* creation of EncoderQueue */
+  EncoderQueueHandle = osMessageQueueNew (16, sizeof(double), &EncoderQueue_attributes);
 
   /* USER CODE BEGIN RTOS_QUEUES */
   /* add queues, ... */

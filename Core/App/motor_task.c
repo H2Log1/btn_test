@@ -2,6 +2,7 @@
 #include "main.h"
 #include "Emm_V5.h"
 #include "stdbool.h"
+#include "tim.h"
 
 typedef struct MOTOR
 {
@@ -96,6 +97,12 @@ void StartMotorTask(void *argument)
     // Emm_V5_Origin_Set_O(motor[1].addr, motor[1].svF);
     // osDelay(10);
 
+    osMessageQueueGet(EncoderQueueHandle, &vel, 0, osWaitForever);
+    if (vel != 0.0)
+    {
+        HAL_GPIO_WritePin(GPIOD, GPIO_PIN_4, GPIO_PIN_SET);
+    }
+
     for (;;)
     {
         osMessageQueueGet(BtnQueueHandle, &click, 0, osWaitForever);
@@ -162,7 +169,17 @@ void StartMotorTask(void *argument)
         }
         else if (click == 4)
         {
-            osDelay(10);
+
+            // osMessageQueueGet(EncoderQueueHandle, &vel, 0, osWaitForever);
+            // if (vel != 0.0)
+            // {
+            //     HAL_GPIO_WritePin(GPIOD, GPIO_PIN_4, GPIO_PIN_SET);
+            // }
+
+            // vel > 8999 ? (vel = 8999) : vel;
+            // __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, 2000);
+            // osDelay(10000);
+            // __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, 0);
         }
     }
 }
