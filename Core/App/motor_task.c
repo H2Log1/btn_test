@@ -24,6 +24,11 @@ MOTOR motor[4] = {
     {0x04, {0x00, 0x01}, 30.0, 10.0, 1.0, false, true}
 };
 
+/**
+ * 未验证的函数：
+ * 步进电机速度控制函数
+ * 角度旋转控制函数
+ */
 // 步进电机控制函数
 void Step_Motor_Set_Speed(float x_rpm, float y_rpm)
 {
