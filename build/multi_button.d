@@ -1,2 +1,2 @@
-build/multi_button.o: Core/BSP/multi_button.c Core/BSP/multi_button.h
-Core/BSP/multi_button.h:
+build/multi_button.o: Core/Bsp/multi_button.c Core/Bsp/multi_button.h
+Core/Bsp/multi_button.h:

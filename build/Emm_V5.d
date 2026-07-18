@@ -1,4 +1,4 @@
-build/Emm_V5.o: Core/BSP/Emm_V5.c Core/BSP/Emm_V5.h Core/Inc/usart.h \
+build/Emm_V5.o: Core/Bsp/Emm_V5.c Core/Bsp/Emm_V5.h Core/Inc/usart.h \
  Core/Inc/main.h Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h \
  Core/Inc/stm32f4xx_hal_conf.h \
  Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h \
@@ -36,7 +36,7 @@ build/Emm_V5.o: Core/BSP/Emm_V5.c Core/BSP/Emm_V5.h Core/Inc/usart.h \
  Middlewares/Third_Party/FreeRTOS/Source/include/task.h \
  Middlewares/Third_Party/FreeRTOS/Source/include/list.h \
  Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h
-Core/BSP/Emm_V5.h:
+Core/Bsp/Emm_V5.h:
 Core/Inc/usart.h:
 Core/Inc/main.h:
 Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
