@@ -143,11 +143,11 @@ void StartMotorTask(void *argument)
             // osDelay(10);
             // Emm_V5_Synchronous_motion(0x00);
 
-            Emm_V5_Pos_Control(motor[2].addr, motor[2].dir[1], motor[2].vel, motor[2].acc, 3200 * motor[2].round, 0x00, motor[2].snF);
-            osDelay(10);
-
-            // Emm_V5_Origin_Trigger_Return(motor[3].addr, 0x00, motor[3].snF);
+            // Emm_V5_Pos_Control(motor[2].addr, motor[2].dir[1], motor[2].vel, motor[2].acc, 3200 * motor[2].round, 0x00, motor[2].snF);
             // osDelay(10);
+
+            Emm_V5_Origin_Trigger_Return(motor[3].addr, 0x00, motor[3].snF);
+            osDelay(10);
         }
         else if (click == 3)
         {
