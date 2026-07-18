@@ -3,9 +3,10 @@
 #include "Emm_V5.h"
 #include "stdbool.h"
 
-typedef struct MOTOR{
+typedef struct MOTOR
+{
     uint8_t addr;
-    uint8_t dir[2]; //正转，反转
+    uint8_t dir[2]; // 正转，反转
     double vel;
     double acc;
     double round;
@@ -14,15 +15,14 @@ typedef struct MOTOR{
 } MOTOR;
 
 MOTOR motor[4] = {
-    // {0x01, {0x01, 0x00}, 2000.0, 200.0, 1, true, true}, 
-    // {0x02, {0x00, 0x01}, 2000.0, 200.0, 1, true, true} 
-    // {0x01, {0x01, 0x00}, 2000.0, 200.0, 0.05, false, true}, 
-    // {0x02, {0x00, 0x01}, 2000.0, 200.0, 1.0, false, true} 
-    {0x01, {0x01, 0x00}, 30.0, 10.0, 0.05, false, true}, 
+    // {0x01, {0x01, 0x00}, 2000.0, 200.0, 1, true, true},
+    // {0x02, {0x00, 0x01}, 2000.0, 200.0, 1, true, true}
+    // {0x01, {0x01, 0x00}, 2000.0, 200.0, 0.05, false, true},
+    // {0x02, {0x00, 0x01}, 2000.0, 200.0, 1.0, false, true}
+    {0x01, {0x01, 0x00}, 30.0, 10.0, 0.05, false, true},
     {0x02, {0x00, 0x01}, 30.0, 10.0, 1.0, false, true},
     {0x03, {0x01, 0x00}, 2000.0, 250.0, 25.0, false, true}, // dir：前（离开电机），后（靠近电机）
-    {0x04, {0x00, 0x01}, 30.0, 10.0, 1.0, false, true}
-};
+    {0x04, {0x00, 0x01}, 30.0, 10.0, 1.0, false, true}};
 
 /**
  * 未验证的函数：
@@ -37,15 +37,15 @@ void Step_Motor_Set_Speed(float x_rpm, float y_rpm)
 
     x_dir = (x_rpm >= 0) ? motor[1].dir[0] : motor[1].dir[1];
     y_dir = (y_rpm >= 0) ? motor[0].dir[0] : motor[0].dir[1];
-    
+
     // 速度换算（0.1RPM单位）
     x_speed_scaled = (uint16_t)(ABS(x_rpm) * 10 + 0.5f);
     y_speed_scaled = (uint16_t)(ABS(y_rpm) * 10 + 0.5f);
-    
+
     // X轴电机控制
     Emm_V5_Vel_Control(motor[1].addr, x_dir, x_speed_scaled, motor[1].acc, motor[1].snF);
     osDelay(10);
-    
+
     // Y轴电机控制
     Emm_V5_Vel_Control(motor[0].addr, y_dir, y_speed_scaled, motor[0].acc, motor[0].snF);
     osDelay(10);
@@ -56,15 +56,17 @@ void Step_Motor_Rotate_X_Angle(int16_t angle)
 {
     uint8_t dir;
     uint32_t pulses;
-    
+
     // 角度限制
-    if(angle > 180) angle = 180;
-    if(angle < -180) angle = -180;
-    
+    if (angle > 180)
+        angle = 180;
+    if (angle < -180)
+        angle = -180;
+
     // 方向判断：CW（右转）为1，CCW（左转）为0
-    if(angle >= 0)
+    if (angle >= 0)
     {
-        dir = 1; // CW
+        dir = 1;                          // CW
         pulses = (uint32_t)(angle * 150); // 角度转脉冲数
     }
     else
@@ -72,16 +74,15 @@ void Step_Motor_Rotate_X_Angle(int16_t angle)
         dir = 0; // CCW
         pulses = (uint32_t)((-angle) * 150);
     }
-    
+
     // 发送位置控制命令
     Emm_V5_Pos_Control(motor[1].addr, dir,
-                       motor[1].vel, motor[1].acc, pulses, 
+                       motor[1].vel, motor[1].acc, pulses,
                        false, motor[1].snF);
 }
 
-
-
-void StartMotorTask(void *argument){
+void StartMotorTask(void *argument)
+{
     Emm_V5_En_Control(motor[0].addr, true, motor[0].snF);
     osDelay(10);
     Emm_V5_En_Control(motor[1].addr, true, motor[1].snF);
@@ -92,9 +93,11 @@ void StartMotorTask(void *argument){
     // Emm_V5_Origin_Set_O(motor[1].addr, motor[1].svF);
     // osDelay(10);
 
-    for(;;){
+    for (;;)
+    {
         osMessageQueueGet(BtnQueueHandle, &click, 0, osWaitForever);
-        if (click == 1) {
+        if (click == 1)
+        {
             // Emm_V5_Pos_Control(motor[0].addr, motor[0].dir[0], motor[0].vel, motor[0].acc, 3200*motor[0].round, 0x00, motor[0].snF);
             // osDelay(10);
             // Emm_V5_Pos_Control(motor[1].addr, motor[1].dir[1], motor[1].vel, motor[1].acc, 3200*motor[1].round, 0x00, motor[1].snF);
@@ -120,17 +123,14 @@ void StartMotorTask(void *argument){
 
             // osDelay(100);
 
-            Emm_V5_Pos_Control(motor[2].addr, motor[2].dir[0], motor[2].vel, motor[2].acc, 3200*motor[2].round, 0x00, motor[2].snF); 
+            Emm_V5_Pos_Control(motor[2].addr, motor[2].dir[0], motor[2].vel, motor[2].acc, 3200 * motor[2].round, 0x00, motor[2].snF);
             osDelay(10);
-
-
-
         }
-        else if(click == 2)
+        else if (click == 2)
         {
-            // Emm_V5_Pos_Control(motor[0].addr, motor[0].dir[1], motor[0].vel, motor[0].acc, 3200*motor[0].round, 0x00, motor[0].snF); 
+            // Emm_V5_Pos_Control(motor[0].addr, motor[0].dir[1], motor[0].vel, motor[0].acc, 3200*motor[0].round, 0x00, motor[0].snF);
             // osDelay(10);
-            // Emm_V5_Pos_Control(motor[1].addr, motor[1].dir[0], motor[1].vel, motor[1].acc, 3200*motor[1].round, 0x00, motor[1].snF); 
+            // Emm_V5_Pos_Control(motor[1].addr, motor[1].dir[0], motor[1].vel, motor[1].acc, 3200*motor[1].round, 0x00, motor[1].snF);
             // osDelay(10);
             // Emm_V5_Synchronous_motion(0x00);
 
@@ -140,8 +140,7 @@ void StartMotorTask(void *argument){
             // osDelay(10);
             // Emm_V5_Synchronous_motion(0x00);
 
-
-            Emm_V5_Pos_Control(motor[2].addr, motor[2].dir[1], motor[2].vel, motor[2].acc, 3200*motor[2].round, 0x00, motor[2].snF); 
+            Emm_V5_Pos_Control(motor[2].addr, motor[2].dir[1], motor[2].vel, motor[2].acc, 3200 * motor[2].round, 0x00, motor[2].snF);
             osDelay(10);
         }
     }
