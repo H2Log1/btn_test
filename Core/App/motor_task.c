@@ -21,7 +21,8 @@ MOTOR motor[4] = {
     // {0x02, {0x00, 0x01}, 2000.0, 200.0, 1.0, false, true}
     {0x01, {0x01, 0x00}, 30.0, 10.0, 0.05, false, true},
     {0x02, {0x00, 0x01}, 30.0, 10.0, 1.0, false, true},
-    {0x03, {0x01, 0x00}, 2000.0, 250.0, 25.0, false, true}, // dir：前（离开电机），后（靠近电机）
+    // {0x03, {0x01, 0x00}, 2000.0, 250.0, 25.0, false, true},// dir：前（离开电机），后（靠近电机）
+    {0x03, {0x01, 0x00}, 2000.0, 250.0, 10.0, false, true},
     {0x04, {0x00, 0x01}, 30.0, 10.0, 1.0, false, true}};
 
 /**
@@ -87,9 +88,11 @@ void StartMotorTask(void *argument)
     osDelay(10);
     Emm_V5_En_Control(motor[1].addr, true, motor[1].snF);
     osDelay(10);
+    Emm_V5_En_Control(motor[2].addr, true, motor[2].snF);
+    osDelay(10);
 
-    // Emm_V5_Origin_Set_O(motor[0].addr, motor[0].svF);
-    // osDelay(10);
+    Emm_V5_Origin_Set_O(motor[2].addr, motor[2].svF);
+    osDelay(10);
     // Emm_V5_Origin_Set_O(motor[1].addr, motor[1].svF);
     // osDelay(10);
 
@@ -141,6 +144,24 @@ void StartMotorTask(void *argument)
             // Emm_V5_Synchronous_motion(0x00);
 
             Emm_V5_Pos_Control(motor[2].addr, motor[2].dir[1], motor[2].vel, motor[2].acc, 3200 * motor[2].round, 0x00, motor[2].snF);
+            osDelay(10);
+
+            // Emm_V5_Origin_Trigger_Return(motor[3].addr, 0x00, motor[3].snF);
+            // osDelay(10);
+        }
+        else if (click == 3)
+        {
+            Emm_V5_Origin_Modify_Params(motor[2].addr, motor[2].svF, 0x00, motor[2].dir[1], 2000.0, 10000, 2000.0, 2000.0, 2000.0, false);
+            osDelay(10);
+
+            Emm_V5_Origin_Trigger_Return(motor[2].addr, 0x00, motor[2].snF);
+            osDelay(10);
+
+            // Emm_V5_Pos_Control(motor[2].addr, motor[2].dir[0], motor[2].vel, motor[2].acc, 3200 * motor[2].round, 0x00, motor[2].snF);
+            // osDelay(10);
+        }
+        else if (click == 4)
+        {
             osDelay(10);
         }
     }
