@@ -28,6 +28,10 @@
 /* USER CODE BEGIN Includes */
 #include "multi_button.h"
 #include "Emm_V5.h"
+#include "motor.h"
+#include "pid.h"
+#include "stdio.h"
+#include "stdlib.h"
 
 /* USER CODE END Includes */
 
@@ -61,16 +65,17 @@ void MX_FREERTOS_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+uint8_t RxData;
+
 
 /* USER CODE END 0 */
 
 /**
- * @brief  The application entry point.
- * @retval int
- */
+  * @brief  The application entry point.
+  * @retval int
+  */
 int main(void)
 {
-
   /* USER CODE BEGIN 1 */
 
   /* USER CODE END 1 */
@@ -99,31 +104,35 @@ int main(void)
   MX_TIM2_Init();
   MX_TIM1_Init();
   MX_TIM9_Init();
+  MX_USART3_UART_Init();
   /* USER CODE BEGIN 2 */
 
   HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
+  HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_2);
   HAL_TIM_Base_Start_IT(&htim2);
   HAL_TIM_Base_Start_IT(&htim9);
 
-  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, 2000);
+  
 
+  HAL_UART_Receive_IT(&huart3, &RxData, 1);
+
+  // __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, 2000);
   // HAL_GPIO_WritePin(GPIOD, GPIO_PIN_4, GPIO_PIN_SET);
-
   // HAL_GPIO_WritePin(GPIOC, GPIO_PIN_0, 1);
+
+  // Motor_Init();
+  // Motor_Set_Vel(6000);
 
   /* USER CODE END 2 */
 
   /* Init scheduler */
-  osKernelInitialize();
-
-  /* Call init function for freertos objects (in cmsis_os2.c) */
+  osKernelInitialize();  /* Call init function for freertos objects (in freertos.c) */
   MX_FREERTOS_Init();
 
   /* Start scheduler */
   osKernelStart();
 
   /* We should never get here as control is now taken by the scheduler */
-
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
@@ -138,22 +147,22 @@ int main(void)
 }
 
 /**
- * @brief System Clock Configuration
- * @retval None
- */
+  * @brief System Clock Configuration
+  * @retval None
+  */
 void SystemClock_Config(void)
 {
   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
 
   /** Configure the main internal regulator output voltage
-   */
+  */
   __HAL_RCC_PWR_CLK_ENABLE();
   __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE1);
 
   /** Initializes the RCC Oscillators according to the specified parameters
-   * in the RCC_OscInitTypeDef structure.
-   */
+  * in the RCC_OscInitTypeDef structure.
+  */
   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
   RCC_OscInitStruct.HSEState = RCC_HSE_BYPASS;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
@@ -168,15 +177,16 @@ void SystemClock_Config(void)
   }
 
   /** Activate the Over-Drive mode
-   */
+  */
   if (HAL_PWREx_EnableOverDrive() != HAL_OK)
   {
     Error_Handler();
   }
 
   /** Initializes the CPU, AHB and APB buses clocks
-   */
-  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2;
+  */
+  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
+                              |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV4;
@@ -189,7 +199,7 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
-double vel = 0.0;
+volatile double now_vel = 0.0;
 int getTIMx_DetaCnt(TIM_HandleTypeDef *htim)
 {
   int cnt;
@@ -203,39 +213,143 @@ double Get_Motor_Speed(TIM_HandleTypeDef *htim)
   return (double)getTIMx_DetaCnt(htim) / 2.72; // round/100s
 }
 
+
+float PID_K[3] = {1.0, 1.0, 1.0};
+HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+{
+
+  if (huart == &huart3)
+  {
+    static uint8_t RxIndex;
+    static uint8_t RxPacket[128];
+    static enum {
+      Wait_Head,           // 等待包头
+      Wait_Flag,           // 等待接收标识
+      Wait_Data            // 等待接收数据
+    } RxState = Wait_Head; // 初始状�?�为等待�??
+
+    static enum {
+      CMD_NONE,              // 空状�??
+      CMD_Kp,                // Kp
+      CMD_Ki,                // Ki
+      CMD_Kd                 // Kd
+    } CurrentCmd = CMD_NONE; // 初始为空状�??
+
+    switch (RxState)
+    {
+    case Wait_Head:
+      if (RxData == 'K')
+      {
+        RxState = Wait_Flag;
+      }
+      break;
+    case Wait_Flag:
+      if (RxData == 'P')
+      {
+        CurrentCmd = CMD_Kp;
+        RxState = Wait_Data;
+        RxIndex = 0;
+      }
+      else if (RxData == 'I')
+      {
+        CurrentCmd = CMD_Ki;
+        RxState = Wait_Data;
+        RxIndex = 0;
+      }
+      else if (RxData == 'D')
+      {
+        CurrentCmd = CMD_Kd;
+        RxState = Wait_Data;
+        RxIndex = 0;
+      }
+      else
+        RxState = Wait_Head;
+      break;
+
+    case Wait_Data:
+      if (RxData == 'M')
+      {
+        RxPacket[RxIndex] = '\0';
+        uint8_t *endptr;
+        float NewValue = strtof((char *)RxPacket, (char **)&endptr); // 双重转换
+        if (endptr != RxPacket && *endptr == '\0')
+        {
+          switch (CurrentCmd)
+          {
+          case CMD_Kp:
+            PID_K[0] = NewValue;
+            // printf("Kp updated:%.2f\n",PID_K[0]);
+            break;
+          case CMD_Ki:
+            PID_K[1] = NewValue;
+            // printf("Ki updated:%.2f\n",PID_K[1]);
+            break;
+          case CMD_Kd:
+            PID_K[2] = NewValue;
+            // printf("Kd updated:%.2f\n",PID_K[2]);
+            break;
+          case CMD_NONE:
+            break;
+          }
+        }
+        else
+          // printf("Error:%s\n",RxPacket);
+          RxState = Wait_Head;
+        CurrentCmd = CMD_NONE;
+      }
+      else
+      {
+        if (RxIndex < sizeof(RxPacket) - 1)
+        {
+          RxPacket[RxIndex++] = RxData;
+        }
+        else
+        {
+          RxState = Wait_Head;
+        }
+      }
+      break;
+    default:
+      RxState = Wait_Head;
+      break;
+    }
+    
+    HAL_UART_Transmit(&huart3,'1',1,100);
+    HAL_UART_Receive_IT(&huart3, &RxData, 1);
+  }
+}
+
 /* USER CODE END 4 */
 
 /**
- * @brief  Period elapsed callback in non blocking mode
- * @note   This function is called  when TIM7 interrupt took place, inside
- * HAL_TIM_IRQHandler(). It makes a direct call to HAL_IncTick() to increment
- * a global variable "uwTick" used as application time base.
- * @param  htim : TIM handle
- * @retval None
- */
+  * @brief  Period elapsed callback in non blocking mode
+  * @note   This function is called  when TIM7 interrupt took place, inside
+  * HAL_TIM_IRQHandler(). It makes a direct call to HAL_IncTick() to increment
+  * a global variable "uwTick" used as application time base.
+  * @param  htim : TIM handle
+  * @retval None
+  */
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
   /* USER CODE BEGIN Callback 0 */
 
   /* USER CODE END Callback 0 */
-  if (htim->Instance == TIM7)
-  {
+  if (htim->Instance == TIM7) {
     HAL_IncTick();
   }
   /* USER CODE BEGIN Callback 1 */
   if (htim->Instance == TIM9)
   {
-    vel = Get_Motor_Speed(&htim2);
-    osMessageQueuePut(EncoderQueueHandle, &vel, 0, 0);
+    now_vel = Get_Motor_Speed(&htim2);
   }
 
   /* USER CODE END Callback 1 */
 }
 
 /**
- * @brief  This function is executed in case of error occurrence.
- * @retval None
- */
+  * @brief  This function is executed in case of error occurrence.
+  * @retval None
+  */
 void Error_Handler(void)
 {
   /* USER CODE BEGIN Error_Handler_Debug */
@@ -247,14 +361,14 @@ void Error_Handler(void)
   /* USER CODE END Error_Handler_Debug */
 }
 
-#ifdef USE_FULL_ASSERT
+#ifdef  USE_FULL_ASSERT
 /**
- * @brief  Reports the name of the source file and the source line number
- *         where the assert_param error has occurred.
- * @param  file: pointer to the source file name
- * @param  line: assert_param error line source number
- * @retval None
- */
+  * @brief  Reports the name of the source file and the source line number
+  *         where the assert_param error has occurred.
+  * @param  file: pointer to the source file name
+  * @param  line: assert_param error line source number
+  * @retval None
+  */
 void assert_failed(uint8_t *file, uint32_t line)
 {
   /* USER CODE BEGIN 6 */

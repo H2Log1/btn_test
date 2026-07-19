@@ -4,8 +4,8 @@
 
 #define BUTTON1_GPIO_Port GPIOD
 #define BUTTON1_Pin GPIO_PIN_3
-#define BUTTON2_GPIO_Port GPIOD
-#define BUTTON2_Pin GPIO_PIN_5
+#define BUTTON2_GPIO_Port GPIOE
+#define BUTTON2_Pin GPIO_PIN_12
 
 uint16_t click = 0;
 

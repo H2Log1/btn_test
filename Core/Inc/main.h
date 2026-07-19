@@ -36,7 +36,11 @@ extern "C" {
   extern osMessageQueueId_t BtnQueueHandle;
   extern osMessageQueueId_t EncoderQueueHandle;
   extern uint16_t click;
-  extern double vel;
+  extern volatile double now_vel;
+  extern volatile double target_vel;
+  extern float speed;
+  extern float pwm;
+  extern float PID_K[3];
 
 /* USER CODE END Includes */
 

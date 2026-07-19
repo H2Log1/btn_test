@@ -3,6 +3,8 @@
 #include "Emm_V5.h"
 #include "stdbool.h"
 #include "tim.h"
+#include "motor.h"
+#include "pid.h"
 
 typedef struct MOTOR
 {
@@ -97,11 +99,7 @@ void StartMotorTask(void *argument)
     // Emm_V5_Origin_Set_O(motor[1].addr, motor[1].svF);
     // osDelay(10);
 
-    osMessageQueueGet(EncoderQueueHandle, &vel, 0, osWaitForever);
-    if (vel != 0.0)
-    {
-        HAL_GPIO_WritePin(GPIOD, GPIO_PIN_4, GPIO_PIN_SET);
-    }
+    Motor_Init();
 
     for (;;)
     {
@@ -158,14 +156,16 @@ void StartMotorTask(void *argument)
         }
         else if (click == 3)
         {
-            Emm_V5_Origin_Modify_Params(motor[2].addr, motor[2].svF, 0x00, motor[2].dir[1], 2000.0, 10000, 2000.0, 2000.0, 2000.0, false);
-            osDelay(10);
+            // Emm_V5_Origin_Modify_Params(motor[2].addr, motor[2].svF, 0x00, motor[2].dir[1], 2000.0, 10000, 2000.0, 2000.0, 2000.0, false);
+            // osDelay(10);
 
-            Emm_V5_Origin_Trigger_Return(motor[2].addr, 0x00, motor[2].snF);
-            osDelay(10);
+            // Emm_V5_Origin_Trigger_Return(motor[2].addr, 0x00, motor[2].snF);
+            // osDelay(10);
 
             // Emm_V5_Pos_Control(motor[2].addr, motor[2].dir[0], motor[2].vel, motor[2].acc, 3200 * motor[2].round, 0x00, motor[2].snF);
             // osDelay(10);
+
+            target_vel = 200.0;
         }
         else if (click == 4)
         {
@@ -180,6 +180,10 @@ void StartMotorTask(void *argument)
             // __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, 2000);
             // osDelay(10000);
             // __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, 0);
+
+            // target_vel = 0.0;
+
+            Motor_Set_Vel(3000);
         }
     }
 }

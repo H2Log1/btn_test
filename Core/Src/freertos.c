@@ -52,7 +52,7 @@ osThreadId_t BtnTaskHandle;
 const osThreadAttr_t BtnTask_attributes = {
   .name = "BtnTask",
   .stack_size = 128 * 4,
-  .priority = (osPriority_t) osPriorityNormal,
+  .priority = (osPriority_t) osPriorityLow,
 };
 /* Definitions for MotorTask */
 osThreadId_t MotorTaskHandle;
@@ -60,6 +60,20 @@ const osThreadAttr_t MotorTask_attributes = {
   .name = "MotorTask",
   .stack_size = 128 * 4,
   .priority = (osPriority_t) osPriorityNormal,
+};
+/* Definitions for PIDTask */
+osThreadId_t PIDTaskHandle;
+const osThreadAttr_t PIDTask_attributes = {
+  .name = "PIDTask",
+  .stack_size = 128 * 4,
+  .priority = (osPriority_t) osPriorityAboveNormal,
+};
+/* Definitions for GetPIDTask */
+osThreadId_t GetPIDTaskHandle;
+const osThreadAttr_t GetPIDTask_attributes = {
+  .name = "GetPIDTask",
+  .stack_size = 128 * 4,
+  .priority = (osPriority_t) osPriorityHigh,
 };
 /* Definitions for BtnQueue */
 osMessageQueueId_t BtnQueueHandle;
@@ -79,6 +93,8 @@ const osMessageQueueAttr_t EncoderQueue_attributes = {
 
 void StartBtnTask(void *argument);
 extern void StartMotorTask(void *argument);
+extern void StartPIDTask(void *argument);
+extern void StartGetPIDTask(void *argument);
 
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 
@@ -121,6 +137,12 @@ void MX_FREERTOS_Init(void) {
 
   /* creation of MotorTask */
   MotorTaskHandle = osThreadNew(StartMotorTask, NULL, &MotorTask_attributes);
+
+  /* creation of PIDTask */
+  PIDTaskHandle = osThreadNew(StartPIDTask, NULL, &PIDTask_attributes);
+
+  /* creation of GetPIDTask */
+  GetPIDTaskHandle = osThreadNew(StartGetPIDTask, NULL, &GetPIDTask_attributes);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
