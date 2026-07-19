@@ -12,33 +12,33 @@ void StartPIDTask(void *argument)
 {
     Pid_t pid_motor = {0};
 
-    // PidInit(
-    //     &pid_motor,
-    //     POSITION_PID,
-    //     4500,  // 最大PWM
-    //     3000,  // 积分限幅
-    //     2.0f,  // 死区
-    //     10.0f, // Kp
-    //     15.0f, // Ki
-    //     5.0f   // Kd
-    // );
-
     PidInit(
         &pid_motor,
         POSITION_PID,
-        4500,     // 最大PWM
-        3000,     // 积分限幅
-        2.0f,     // 死区
-        PID_K[0], // Kp
-        PID_K[1], // Ki
-        PID_K[2]  // Kd
+        4500,  // 最大PWM
+        3000,  // 积分限幅
+        2.0f,  // 死区
+        15.0f, // Kp
+        20.0f, // Ki
+        5.0f   // Kd
     );
+
+    // PidInit(
+    //     &pid_motor,
+    //     POSITION_PID,
+    //     4500,     // 最大PWM
+    //     3000,     // 积分限幅
+    //     2.0f,     // 死区
+    //     PID_K[0], // Kp
+    //     PID_K[1], // Ki
+    //     PID_K[2]  // Kd
+    // );
 
     for (;;)
     {
-        pid_motor.p = PID_K[0];
-        pid_motor.i = PID_K[1];
-        pid_motor.d = PID_K[2];
+        // pid_motor.p = PID_K[0];
+        // pid_motor.i = PID_K[1];
+        // pid_motor.d = PID_K[2];
 
         // 当前速度
         speed = now_vel;

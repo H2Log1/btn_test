@@ -4,10 +4,10 @@
 
 // 使能电机引脚
 #define MOTOR_ENABLE_GPIO GPIOA
-#define MOTOR_ENABLE_PIN GPIO_PIN_4
+#define MOTOR_ENABLE_PIN GPIO_PIN_12
 // 单/双极性引脚
 #define MOTOR_BIPOLAR_GPIO GPIOB
-#define MOTOR_BIPOLAR_PIN GPIO_PIN_0
+#define MOTOR_BIPOLAR_PIN GPIO_PIN_12
 
 void Motor_Init(void)
 {
