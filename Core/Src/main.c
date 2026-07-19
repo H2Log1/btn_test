@@ -344,16 +344,19 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
   if (htim->Instance == TIM9)
   {
     now_vel = Get_Motor_Speed(&htim2);
+    BaseType_t wake = pdFALSE;
+    vTaskNotifyGiveFromISR(PIDTaskHandle, &wake);
+    portYIELD_FROM_ISR(wake);
     printf("Speed:%.3f\n", now_vel);
   }
 
   if (htim->Instance == TIM14)
   {
-    BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+    // BaseType_t xHigherPriorityTaskWoken = pdFALSE;
 
-    vTaskNotifyGiveFromISR(PIDTaskHandle, &xHigherPriorityTaskWoken);
+    // vTaskNotifyGiveFromISR(PIDTaskHandle, &xHigherPriorityTaskWoken);
 
-    portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+    // portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
   }
 
   /* USER CODE END Callback 1 */

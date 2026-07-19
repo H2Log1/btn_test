@@ -54,6 +54,6 @@ void StartPIDTask(void *argument)
 
         Motor_Set_Vel((uint16_t)pwm);
 
-        osDelay(10);
+        // osDelay(10);
     }
 }
