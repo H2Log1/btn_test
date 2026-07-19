@@ -2,7 +2,8 @@
 
 void StartGetPIDTask(void *argument)
 {
-    for (;;){
-        
+    for (;;)
+    {
+        osDelay(1);
     }
 }

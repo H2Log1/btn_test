@@ -36,6 +36,10 @@ void StartPIDTask(void *argument)
 
     for (;;)
     {
+        pid_motor.p = PID_K[0];
+        pid_motor.i = PID_K[1];
+        pid_motor.d = PID_K[2];
+
         // 当前速度
         speed = now_vel;
 
