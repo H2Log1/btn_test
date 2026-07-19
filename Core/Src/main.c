@@ -66,6 +66,11 @@ void MX_FREERTOS_Init(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 uint8_t RxData;
+int _write(int file, char *ptr, int len)
+{
+    HAL_UART_Transmit(&huart3, (uint8_t*)ptr, len, HAL_MAX_DELAY);
+    return len;
+}
 
 
 /* USER CODE END 0 */
@@ -105,6 +110,7 @@ int main(void)
   MX_TIM1_Init();
   MX_TIM9_Init();
   MX_USART3_UART_Init();
+  MX_TIM14_Init();
   /* USER CODE BEGIN 2 */
 
   HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
@@ -113,7 +119,7 @@ int main(void)
   HAL_TIM_Base_Start_IT(&htim9);
 
   
-
+  setvbuf(stdout, NULL, _IONBF, 0);
   HAL_UART_Receive_IT(&huart3, &RxData, 1);
 
   // __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, 2000);
@@ -199,7 +205,7 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
-volatile double now_vel = 0.0;
+volatile double now_vel = 2.0;
 int getTIMx_DetaCnt(TIM_HandleTypeDef *htim)
 {
   int cnt;
@@ -226,10 +232,10 @@ HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
       Wait_Head,           // 等待包头
       Wait_Flag,           // 等待接收标识
       Wait_Data            // 等待接收数据
-    } RxState = Wait_Head; // 初始状�?�为等待�???
+    } RxState = Wait_Head; // 初始状�?�为等待�????
 
     static enum {
-      CMD_NONE,              // 空状�???
+      CMD_NONE,              // 空状�????
       CMD_Kp,                // Kp
       CMD_Ki,                // Ki
       CMD_Kd                 // Kd
@@ -314,7 +320,7 @@ HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
       break;
     }
     
-    HAL_UART_Transmit(&huart3,'1',1,100);
+    // HAL_UART_Transmit(&huart3,'1',1,100);
     HAL_UART_Receive_IT(&huart3, &RxData, 1);
   }
 }
@@ -341,6 +347,13 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
   if (htim->Instance == TIM9)
   {
     now_vel = Get_Motor_Speed(&htim2);
+    printf("Speed:%.3f\n", now_vel);
+  }
+
+  if (htim->Instance == TIM14)
+  {
+    
+
   }
 
   /* USER CODE END Callback 1 */
