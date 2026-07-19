@@ -12,7 +12,6 @@ Pid_t pid_motor = {0};
 void StartPIDTask(void *argument)
 {
 
-
     // PidInit(
     //     &pid_motor,
     //     POSITION_PID,
@@ -37,6 +36,8 @@ void StartPIDTask(void *argument)
 
     for (;;)
     {
+        ulTaskNotifyTake(pdTRUE, portMAX_DELAY);
+
         pid_motor.p = PID_K[0];
         pid_motor.i = PID_K[1];
         pid_motor.d = PID_K[2];
